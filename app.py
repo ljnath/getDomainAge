@@ -20,6 +20,9 @@ from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
 
+
+import sys
+import traceback
 import os
 import re
 import pickle
@@ -470,37 +473,44 @@ def error_page(e):
 
 
 if __name__ == 'getDomainAge':
-    # configuring application logging
-    logging.getLogger('werkzeug').setLevel(logging.DEBUG)
-    logging.getLogger('werkzeug').addHandler(LOG_HANDLER)
-    app.logger.setLevel(logging.INFO)
-    app.logger.addHandler(LOG_HANDLER)
-    if not app.logger.hasHandlers():
+    try:
+        # configuring application logging
+        logging.getLogger('werkzeug').setLevel(logging.DEBUG)
+        logging.getLogger('werkzeug').addHandler(LOG_HANDLER)
+        app.logger.setLevel(logging.INFO)
         app.logger.addHandler(LOG_HANDLER)
+        if not app.logger.hasHandlers():
+            app.logger.addHandler(LOG_HANDLER)
 
-    app.logger.info('Starting application getDomainAge v{}'.format(__version__))
+        app.logger.info('Starting application getDomainAge v{}'.format(__version__))
 
-    # configuring database in case it does not exist
-    if not os.path.exists(DB_FILE_PATH):
-        app.logger.info('Database file is missing, initializing it now')
-        initialize_database()
+        # configuring database in case it does not exist
+        if not os.path.exists(DB_FILE_PATH):
+            app.logger.info('Database file is missing, initializing it now')
+            initialize_database()
 
-    # loading cache file is found
-    if os.path.exists(CACHE_FILE_PATH):
-        app.logger.info('Detected existing cache file, loading it now')
-        with open(CACHE_FILE_PATH, 'rb') as file_handler:
-            DOMAIN_CACHE = pickle.load(file_handler)
-            app.logger.info('Successfully loaded {} records from cache file'.format(len(DOMAIN_CACHE.keys())))
+        # loading cache file is found
+        if os.path.exists(CACHE_FILE_PATH):
+            app.logger.info('Detected existing cache file, loading it now')
+            with open(CACHE_FILE_PATH, 'rb') as file_handler:
+                DOMAIN_CACHE = pickle.load(file_handler)
+                app.logger.info('Successfully loaded {} records from cache file'.format(len(DOMAIN_CACHE.keys())))
 
-    # creating and starting worker a seperate thread
-    app.logger.info('Creating worker thread')
-    worker = Worker()
-    worker_thread = threading.Thread(target=worker.run)
-    worker_thread.start()
+        # creating and starting worker a seperate thread
+        app.logger.info('Creating worker thread')
+        worker = Worker()
+        worker_thread = threading.Thread(target=worker.run)
+        worker_thread.start()
 
-    # starting flask web application 
-    app.logger.info('Starting web server')
-    app.permanent_session_lifetime = timedelta(minutes=30)
-    app.secret_key=SECRET_KEY
-    app.run(debug=APP_DEBUG_MODE, host=APP_HOST, port=APP_PORT, threaded=True)
+        # starting flask web application 
+        app.logger.info('Starting web server')
+        app.permanent_session_lifetime = timedelta(minutes=30)
+        app.secret_key=SECRET_KEY
+        app.run(debug=APP_DEBUG_MODE, host=APP_HOST, port=APP_PORT, threaded=True)
+    except:
+        self.__logger
+        print('-'*60)
+        traceback.print_exc(file=sys.stdout)
+        print('-'*60)
+        
     

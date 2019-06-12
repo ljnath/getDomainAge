@@ -1,18 +1,17 @@
 # getDomainAge
 ### Version : 0.1
 
-Author : Lakhya Jyoti Nath (ljnath)
-Email : ljnath@ljnath.com
+Author : Lakhya Jyoti Nath (ljnath)<br>
+Date : June 2019<br>
+Email : ljnath@ljnath.com<br>
 Website : https://www.ljnath.com
-
-Date : June 2019
 
 ## What is it ?
 getDomainAge is a simple web-based job scheduler application developed in python using flask micro framework and SQLAlchemy as ORM to get the age of a domain in days.<br>
 This application is to showcase the scrapping and web capability of python. The domain informations are scrapped from https://www.whois.com/
 
 
-## How to works ?
+## How it works ?
 - It works by scrapping the domain registration date from https://www.whois.com/
 - User places their job request using the web portal where they can enter onr or more URLs in comma or new-line seperated manner. Jobs are stored in SQLite DB
 - A scheduler keeps on running every 2 or 120 seconds (configurable). It checks the DB for any new job and processes it.
