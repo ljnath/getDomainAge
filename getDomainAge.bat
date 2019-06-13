@@ -2,7 +2,7 @@
 @REM DRIVER SCRIPT FOR RUNNING getDomainAge in windows environment
 @REM Author: Lakhya Jyoti Nath (ljnath) @ June 2019 
 @REM
-@REM Prerequisite : Python 3.5/3.6
+@REM Prerequisite : Python 3.5/3.6  and python binary path should be in the path variable
 
 
 :INITIALIZE

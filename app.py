@@ -201,9 +201,9 @@ class Worker():
         """
         output_result_file  = '{}/job_id_{}.csv'.format(RESULTS_DIRECTORY, job_id)
         with open(output_result_file, "w", encoding='utf-8', newline='') as file_handler:
-            csvWriter = csv.writer(file_handler)
-            csvWriter.writerow(['URL', 'Domain Name', 'Age (in days)'])
-            [csvWriter.writerow([result[0], result[1], result[2]]) for result in results]
+            csv_writer = csv.writer(file_handler)
+            csv_writer.writerow(['URL', 'Domain Name', 'Age (in days)'])
+            [csv_writer.writerow([result[0], result[1], result[2]]) for result in results]
             self.__logger.info('Job #{}: Saved {} results to file {}'.format(job_id, len(results), output_result_file))
         return output_result_file
 
