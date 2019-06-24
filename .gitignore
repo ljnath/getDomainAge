@@ -1,0 +1,7 @@
+
+.venv/*
+pyenv/*
+*.pyc
+.vscode/*
+logs/app.log
+domain.db
