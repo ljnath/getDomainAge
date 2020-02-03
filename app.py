@@ -37,7 +37,7 @@ from subprocess import threading
 from urllib.parse import urlparse
 
 
-__version__ = 0.1
+__version__ = 0.2
 __author__ ='Lakhya Jyoti Nath'
 __name__ = 'getDomainAge'
 
@@ -120,10 +120,13 @@ class DomainChecker():
         """
         domain_name = None
         try:
-            domain_name = '{uri.netloc}'.format(uri=urlparse(url))
+            result = urlparse(url)
+            domain_name = '{}'.format(result.netloc if result.netloc else result.path)
         except:
             domain_name = None
             self.__logger.warning('Failed to parse domain name from URL {}'.format(url))
+        else:
+            domain_name = '{}{}'.format('www.' if not domain_name.startswith('www.') else '', domain_name)
         finally:
             return domain_name
 

@@ -1,5 +1,5 @@
 # getDomainAge
-### Version : 0.1
+### Version : 0.2
 
 Author : Lakhya Jyoti Nath (ljnath)<br>
 Date : June 2019<br>
@@ -22,5 +22,5 @@ This application is to showcase the scrapping and web capability of python. The 
 ## How to use ?
 - Login with your email ID
 - Add a new job where you need to enter your list of URLs in a form, which can be comma or new-line seperated
-- Wait for your job to be processed. Once processed, you will receive an email with the zcodes.
+- Wait for your job to be processed. Once processed, you will receive an email with the age of your selected domain.
 
