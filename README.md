@@ -6,6 +6,12 @@ Date : June 2019<br>
 Email : ljnath@ljnath.com<br>
 Website : https://www.ljnath.com
 
+[![](https://img.shields.io/docker/pulls/ljnath/getdomainage)](https://hub.docker.com/r/ljnath/getdomainage)
+[![](https://images.microbadger.com/badges/image/ljnath/getdomainage.svg)](https://microbadger.com/images/ljnath/getdomainage)
+[![](https://images.microbadger.com/badges/version/ljnath/getdomainage.svg)](https://microbadger.com/images/ljnath/getdomainage)
+[![](https://img.shields.io/github/license/ljnath/getdomainage)](https://github.com/ljnath/getDomainAge)
+
+
 ## What is it ?
 getDomainAge is a simple web-based job scheduler application developed in python using flask micro framework and SQLAlchemy as ORM to get the age of a domain in days.<br>
 This application is to showcase the scrapping and web capability of python. The domain informations are scrapped from https://www.whois.com/
@@ -30,7 +36,7 @@ To run the getdomainage docker container, run this command
 docker run -p 5000:5000 getdomainage
 ```
 
-In order to run the docker container with existing database and log file, you need to mount the local directory as shown below
+In order to run the docker container with existing database and log file, you need to mount the local directory (e.g.: /home/user/getDomainAge) as shown below
 
 ```docker
 docker run -p 5000:5000 -v /home/user/getDomainAge:/usr/src/app getdomainage
