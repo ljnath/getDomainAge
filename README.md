@@ -24,3 +24,14 @@ This application is to showcase the scrapping and web capability of python. The 
 - Add a new job where you need to enter your list of URLs in a form, which can be comma or new-line seperated
 - Wait for your job to be processed. Once processed, you will receive an email with the age of your selected domain.
 
+## How to run using docker ?
+To run the getdomainage docker container, run this command
+```docker
+docker run -p 5000:5000 getdomainage
+```
+
+In order to run the docker container with existing database and log file, you need to mount the local directory as shown below
+
+```docker
+docker run -p 5000:5000 -v /home/user/getDomainAge:/usr/src/app getdomainage
+```
