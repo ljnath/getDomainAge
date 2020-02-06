@@ -33,11 +33,11 @@ This application is to showcase the scrapping and web capability of python. The 
 ## How to run using docker ?
 To run the getdomainage docker container, run this command
 ```docker
-docker run -p 5000:5000 getdomainage
+docker run -p 5000:5000 ljnath/getdomainage
 ```
 
 In order to run the docker container with existing database and log file, you need to mount the local directory (e.g.: /home/user/getDomainAge) as shown below
 
 ```docker
-docker run -p 5000:5000 -v /home/user/getDomainAge:/usr/src/app getdomainage
+docker run -p 5000:5000 -v /home/user/getDomainAge:/usr/src/app ljnath/getdomainage
 ```
