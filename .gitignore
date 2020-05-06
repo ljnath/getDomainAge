@@ -5,3 +5,4 @@ pyenv/*
 .vscode/*
 logs/app.log
 domain.db
+results/*

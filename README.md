@@ -7,7 +7,7 @@ Email : ljnath@ljnath.com<br>
 Website : https://www.ljnath.com
 
 [![](https://img.shields.io/docker/pulls/ljnath/getdomainage)](https://hub.docker.com/r/ljnath/getdomainage)
-[![](https://images.microbadger.com/badges/image/ljnath/getdomainage.svg)](https://microbadger.com/images/ljnath/getdomainage)
+![Docker Image Size (tag)](https://img.shields.io/docker/image-size/ljnath/getdomainage/latest)
 [![](https://images.microbadger.com/badges/version/ljnath/getdomainage.svg)](https://microbadger.com/images/ljnath/getdomainage)
 [![](https://img.shields.io/github/license/ljnath/getdomainage)](https://github.com/ljnath/getDomainAge)
 
