@@ -72,7 +72,7 @@ SMTP_PASSWORD = ''                                      # Password for yout SMTP
 SENDER_EMAIL = 'get-domain-age@ljnath.com'              # sender email which will be used for sending email
 
 APP_HOST = '0.0.0.0'                                    # host name where this application will be running
-APP_PORT = 5000                                         # port number on which this application will be running
+APP_PORT = 80                                           # port number on which this application will be running
 APP_DEBUG_MODE = False                                  # start application in debug mode
 
 
