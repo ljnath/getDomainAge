@@ -17,8 +17,10 @@ class Environment(metaclass=Singleton):
     def __check_environment(class_member):
         """
         Decorator which takes a class member as argument. This argument is wrapped using wraps()
-        The inner function takes class instance for accessing the class members. All are argments are accepted using *args and **kwargs
-        It checked if the environment is initialized, if yes it calls the class_member with all the input argument; if not it raises an exception
+        The inner function takes class instance for accessing the class members.
+        All are argments are accepted using *args and **kwargs
+        It checked if the environment is initialized, if yes it calls the class_member with all the input argument;
+        if not it raises an exception
         """
         @wraps(class_member)
         def inner_function(class_inst, *args, **kwargs):
@@ -50,10 +52,10 @@ class Environment(metaclass=Singleton):
         self.__app_job_per_page = config['application']['jobs_per_page']
         self.__app_session_timeout = config['application']['session_timeout']
 
-        self.__log_directory = f'{self.__workspace_path}/logs/'
-        self.__results_directory = f'{self.__workspace_path}/results/'
+        self.__log_directory = f'{self.__workspace_path}/logs'
+        self.__result_directory = f'{self.__workspace_path}/results'
 
-        for directory_path in (self.__log_directory, self.__results_directory):
+        for directory_path in (self.__log_directory, self.__result_directory):
             os.makedirs(directory_path, exist_ok=True)
 
         self.__is_initialized = True
@@ -91,7 +93,7 @@ class Environment(metaclass=Singleton):
     @property
     @__check_environment
     def result_directory(self):
-        return self.__results_directory
+        return self.__result_directory
 
     @property
     @__check_environment
@@ -116,7 +118,7 @@ class Environment(metaclass=Singleton):
     @property
     @__check_environment
     def smtp_port(self):
-        return self.smtp_port
+        return self.__smtp_port
 
     @property
     @__check_environment

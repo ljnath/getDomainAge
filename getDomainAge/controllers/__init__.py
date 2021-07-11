@@ -1,4 +1,5 @@
 from functools import wraps
+
 from flask import redirect, session, url_for
 from getDomainAge.models.enums import SessionParam, SiteLink
 from getDomainAge.services.notification import NotificationService

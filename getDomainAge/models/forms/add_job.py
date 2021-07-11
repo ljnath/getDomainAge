@@ -6,4 +6,4 @@ class AddJobForm(Form):
     Class for creating new FOrm for user to enter URLs
     """
 
-    urls = TextAreaField('URLs (comma or newline seperated)', [validators.Length(min=1, max=99999)], render_kw={"rows": 25})
+    urls = TextAreaField('URLs (comma or newline seperated)', [validators.Length(min=1, max=99999)], render_kw={"rows": 20})

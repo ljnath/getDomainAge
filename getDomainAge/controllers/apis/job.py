@@ -1,4 +1,7 @@
+import os
+
 from flask import redirect, render_template, request, session, url_for
+from flask.helpers import send_from_directory
 from getDomainAge import app
 from getDomainAge.controllers import has_logged_in
 from getDomainAge.handlers.environment import Environment
@@ -21,7 +24,7 @@ def api_add_view():
     endpoint: /getDomainAge/api/job/view
     job endpoint for placing new job request
     """
-    job_service.update_job_cache()
+    job_service.udpate_cache()
 
     session[SessionParam.VIEW_ALL.value] = False if request.args.get(RequestParam.ALL.value) is None else True
     session[SessionParam.PAGE_INDEX.value] = 2 if session[SessionParam.VIEW_ALL.value] else 1
@@ -44,7 +47,12 @@ def api_add_view():
 
     valid_jobs = jobs[::-1][env.app_job_per_page * (page_number - 1):env.app_job_per_page * page_number]
 
-    return render_template(Template.VIEW_JOBS.value, all_jobs=valid_jobs, page=page_number, last=max_page, start=previous_page, end=next_page)
+    return render_template(Template.VIEW_JOBS.value,
+                           all_jobs=valid_jobs,
+                           page=page_number,
+                           last=max_page,
+                           start=previous_page,
+                           end=next_page)
 
 
 @app.route(f'/{Endpoint.API_JOB_ADD.value}', methods=[HttpMethod.POST.value])
@@ -72,46 +80,40 @@ def api_add_job():
         if job_service.add_new_job(updated_urls, session[SessionParam.EMAIL.value]):
             notification_service.notify_success('Your job has been added, please wait for it to be processed.')
         else:
-            notification_service.notify_failure('Failed to added new job, please try aftersome.')
+            notification_service.notify_error('Failed to added new job, please try aftersome.')
 
         return redirect(url_for(SiteLink.DASHBOARD.value))
 
     return render_template(Template.ADD_JOB.value, form=add_job_form)
 
 
-# @app.route(f'/{Endpoint.DOWNLOAD.value}/<filename>', methods=[HttpMethod.GET.value])
-# @has_logged_in
-# def download(filename):
-#     """
-#     endpoint: /getDomainAge/download/<filename>
-#     download endpoint for directly downloading the result file
-#     """
-#     # if filename is empty of filename is not in the form filename.ext
-#     try:
-#         job_id = filename.strip().split('.')[0]
-#     except Exception:
-#         notification_service.notify_error('Invalid filename.')
-#         return redirect(url_for(SiteLink.HOMEPAGE.value))
+@app.route(f'/{Endpoint.API_JOB_DOWNLOAD.value}/<id>', methods=[HttpMethod.GET.value])
+@has_logged_in
+def download_file(id):
+    """
+    endpoint: /getDomainAge/api/job/download/<filename>
+    download endpoint for directly downloading the result file
+    """
+    try:
+        job_id = int(id)
+    except ValueError:
+        notification_service.notify_error('You have made an invalid request.')
+        return redirect(url_for(SiteLink.HOMEPAGE.value))
 
-#     # if filename is not a digit and contains some other character
-#     if not job_id or not re.match(r'[\d]', job_id):
-#         notification_service.notify_error('You have made an invalid request.')
-#         return redirect(url_for(SiteLink.HOMEPAGE.value))
+    # fetching job record by job_id
+    job_record = job_service.get_job_by_id(job_id)
 
-#     # fetching job record by job_id
-#     job_record = db_service.get_job(job_id)
+    # checking if job_record is found and if the job was requested by the logged-in user
+    if job_record and job_record.requested_by == session[SessionParam.EMAIL.value]:
 
-#     # checking if job_record is found and if the job was requested by the logged-in user
-#     if job_record and job_record.requested_by == session[SessionParam.EMAIL.value]:
+        # if file is missing, notifying user
+        if not os.path.exists(job_service.get_output_filepath(job_id)):
+            notification_service.notify_warning('The result {}.csv that you are looking for is missing.'.format(job_id))
+            return redirect(url_for(SiteLink.HOMEPAGE.value))
 
-#         # if file is missing, notifying user
-#         if not os.path.exists(f'{env.result_directory}/job_id_{job_id}.csv'):
-#             notification_service.notify_warning('The result {}.csv that you are looking for is missing.'.format(job_id))
-#             return redirect(url_for(SiteLink.HOMEPAGE.value))
-
-#         # if file is present, starting the download
-#         return send_from_directory(directory=env.result_directory, filename=f'job_id_{job_id}.csv')
-#     else:
-#         # if job id was not created by this same email, showing warning message
-#         notification_service.notify_error('You do not have permission to download this file as you did not place the job.')
-#         return redirect(url_for(SiteLink.HOMEPAGE.value))
+        # if file is present, starting the download
+        return send_from_directory(directory=env.result_directory, path=f'job_id_{job_id}.csv', as_attachment=True)
+    else:
+        # if job id was not created by this same email, showing warning message
+        notification_service.notify_error('You are not the owner of this file, you are not allowed to download this.')
+        return redirect(url_for(SiteLink.HOMEPAGE.value))

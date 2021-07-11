@@ -7,7 +7,8 @@ class LogHandler():
     @staticmethod
     def get_logger(name, filepath):
         logger = logging.getLogger(name)
-        log_formatter = logging.Formatter('%(asctime)s.%(msecs)03d - %(name)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+        log_formatter = logging.Formatter(
+            '%(asctime)s.%(msecs)03d - %(name)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 
         logger.setLevel(logging.DEBUG)
 

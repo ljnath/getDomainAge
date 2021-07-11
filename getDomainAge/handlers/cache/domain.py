@@ -1,8 +1,9 @@
-from datetime import date
-from getDomainAge.handlers.log import LogHandler
-from getDomainAge.handlers.environment import Environment
-import pickle
 import os
+import pickle
+from datetime import date
+
+from getDomainAge.handlers.environment import Environment
+from getDomainAge.handlers.log import LogHandler
 
 
 class DomainCacheHandler:
@@ -52,7 +53,9 @@ class DomainCacheHandler:
             try:
                 with open(self.__env.cached_domain_path, 'rb') as file_handler:
                     self.__env.memcached_domain = pickle.load(file_handler)
-                    self.__logger.info(f'Successfully loaded {len(self.__env.memcached_domain.keys())} domain deatils from cache file {self.__env.cached_domain_path}')
+                    self.__logger.info(
+                        f'Successfully loaded {len(self.__env.memcached_domain.keys())} \
+                            domain details from cache file {self.__env.cached_domain_path}')
             except pickle.PickleError as pe:
                 self.__env.memcached_domain = {}
                 self.__logger.error(f'Failed to load cached domain from {self.__env.cached_domain_path}')

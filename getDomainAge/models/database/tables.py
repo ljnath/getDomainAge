@@ -2,12 +2,13 @@ from getDomainAge.handlers.environment import Environment
 from sqlalchemy import Column, Integer, String
 
 
-class Job(Environment().sqlalchemy_base):
+class Jobs(Environment().sqlalchemy_base):
     """
     Declaring Mapped Classes representing the Job table in the database
     These kind of model classes should inherit from instance of sqlalchemy.orm.declarative_base
 
-    As this is a structured project, the instance of sqlalchemy.orm.declarative_base (Base) is created in the DatabaseService and stored in the environemnt class.
+    As this is a structured project, the instance of sqlalchemy.orm.declarative_base (Base) is
+    created in the DatabaseService and stored in the environemnt class.
     Therefore this class inherits from the Environment().sqlalchemy_base
 
     TABLE NAME: Jobs
@@ -18,7 +19,7 @@ class Job(Environment().sqlalchemy_base):
     | ID           | Integer       | YES |
     | requested_by | Sring (50)    |     |
     | requested_on | Integer       |     |
-    | status       | String(10)    |     |
+    | status       | String(20)    |     |
     | urls         | String(99999) |     |
     | completed_on | Integer       |     |
     +--------------+---------------+-----+
@@ -29,7 +30,7 @@ class Job(Environment().sqlalchemy_base):
     id = Column('id', Integer, primary_key=True)
     requested_by = Column('requested_by', String(50), nullable=False)
     requested_on = Column('requested_on', Integer, nullable=False)
-    status = Column('status', String(10), nullable=False)
+    status = Column('status', String(20), nullable=False)
     urls = Column('urls', String(99999), nullable=False)
     completed_on = Column('completed_on', Integer, nullable=True)
 

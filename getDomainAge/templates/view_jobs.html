@@ -23,15 +23,21 @@
               <th>Job Id</th>
               <th>Submitted By</th>
               <th>URL count</th>
-              <th>Submitted On (IST)</th>
+              <th>Submitted On (Local TZ)</th>
               <th>Status</th>
-              <th>Completed On (IST)</th>
+              <th>Completed On (Local TZ)</th>
               <th>Download</th>
           </tr>
           {% for job in all_jobs %}
               <tr>
               <td>{{ job.id }}</td>
-              <td>{{ job.requested_by }}</td>
+              <td>
+                {% if session['email'] == job.requested_by.lower() %}
+                  {{ job.requested_by }}
+                {% else %}
+                  {{ job.requested_by[0] + (job.requested_by.split('@')[0]|length * '*') + '@' +  job.requested_by.split('@')[1]|length * '*' +  job.requested_by[-1]}}
+                {% endif %}
+              </td>
               {% set ids = job.urls.split(',') %}
               <td>{{ ids|length }}</td>
               <td id= 'reqestedTime{{job.id}}'>
@@ -41,7 +47,7 @@
                 <td class="text-uppercase text-primary">{{ job.status }}</td>
               {% elif job.status == 'PENDING' %}
                 <td class="text-uppercase text-warning">{{ job.status }}</td>
-              {% elif job.status == 'COMPLETED' %}
+              {% elif job.status == 'COMPLETED' or job.status == 'MAIL FAILED' %}
                 <td class="text-uppercase text-dark">{{ job.status }}</td>
               {% endif %}
 
@@ -51,8 +57,8 @@
                   {% endif %}
               </td>
               <td>
-                  {% if job.status == 'COMPLETED' and session['email'] == job.requested_by.lower() %}
-                    <a class="badge badge-secondary" href="/getDomainAge/download/{{ job.job_id }}.csv">Download</a>
+                  {% if (job.status == 'COMPLETED' or job.status == 'MAIL FAILED') and session['email'] == job.requested_by.lower() %}
+                    <a class="badge badge-secondary" href="download/{{ job.id }}">Download</a>
                   {% endif %}
               </td>
           {% endfor %}

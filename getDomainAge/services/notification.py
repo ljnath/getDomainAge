@@ -23,14 +23,6 @@ class NotificationService:
         if message:
             flash(message, NotificationCategory.WARNING.value)
 
-    def notify_failure(self, message) -> None:
-        """
-        method to show failure message
-        :param message: the message to be flashed
-        """
-        if message:
-            flash(message, NotificationCategory.FAILURE.value)
-
     def notify_error(self, message) -> None:
         """
         method to show dannger or error message

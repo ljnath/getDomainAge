@@ -56,6 +56,7 @@ class JobStatus(Enum):
     RUNNING = 'RUNNING'
     PENDING = 'PENDING'
     COMPLETED = 'COMPLETED'
+    FAILED_EMAIL = 'MAIL FAILED'
 
 
 class NotificationCategory(Enum):
@@ -64,7 +65,6 @@ class NotificationCategory(Enum):
     """
     SUCCESS = 'success'
     WARNING = 'warning'
-    FAILURE = 'failure'
     DANGER = 'danger'
 
 

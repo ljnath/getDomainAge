@@ -1,7 +1,7 @@
 from flask import render_template, session
 from getDomainAge import app
 from getDomainAge.handlers.environment import Environment
-from getDomainAge.models.enums import Template, SessionParam
+from getDomainAge.models.enums import SessionParam, Template
 
 
 @app.errorhandler(404)
