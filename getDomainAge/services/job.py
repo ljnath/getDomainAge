@@ -1,7 +1,7 @@
-import requests
+from time import time
+
 from getDomainAge.handlers.environment import Environment
 from getDomainAge.handlers.log import LogHandler
-from getDomainAge.models.enums import Endpoint, HttpHeader
 from getDomainAge.models.database.tables import Job
 from getDomainAge.models.enums import JobStatus
 from getDomainAge.services.database import DatabaseService
@@ -22,7 +22,7 @@ class JobService:
             # adding the new job in the database and notifying user
             new_job = Job(
                 requested_by=requested_by,
-                requested_on=123456,
+                requested_on=int(time()),
                 status=JobStatus.PENDING.value,
                 urls=','.join(urls))
             self.__db_service.add_job(new_job)
@@ -36,12 +36,40 @@ class JobService:
 
         return status
 
+    def get_all_jobs(self, from_cache=True) -> list:
+        """
+        Method to get list of all job
+        :param from_cache : bool value indicating is the result needs to be fetch from cache rather then actual database
+        :return jobs : list of valid jobs
+        """
+        jobs = []
+        if from_cache:
+            jobs = self.__env.memcached_jobs
+        else:
+            jobs = self.__db_service.get_all_jobs()
+
+        self.__logger.info(f'Fetched {len(jobs)} jobs from {"cache" if from_cache else "database"}')
+        return jobs
+
+    def get_job_by_requestor(self, requestor, from_cache=True) -> list:
+        """
+        Method to get list of job filtered by requestor
+        :param requestor : string filter by criteria, email of user
+        :param from_cache : bool value indicating is the result needs to be fetch from cache rather then actual database
+        :return jobs : list of valid jobs
+        """
+        jobs = []
+        if from_cache:
+            jobs = [job for job in self.__env.memcached_jobs if job.requested_by.lower() == requestor]
+        else:
+            jobs = self.__db_service.get_all_jobs_by_requestor(requestor)
+
+        self.__logger.info(f'Fetched {len(jobs)} jobs requested by user {requestor} from {"cache" if from_cache else "database"}')
+        return jobs
+
     def update_job_cache(self) -> None:
         """
         Method to update the job cache.
         This is achieved by making a POST call to the ../reloadCache endpoint
         """
-        requests.post(
-            url=f'http://127.0.0.1:{self.__env.server_port}{Endpoint.RELOAD_CACHE.value}',
-            headers={HttpHeader.API_KEY.value: self.__env.api_secrect_key})
-        self.__logger.info('Successfuly updated job cache')
+        self.__env.memcached_jobs = self.__db_service.get_all_jobs()

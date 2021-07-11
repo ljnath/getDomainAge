@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en", class="h-100">
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <title>getDomainRegistrar {{ session.app_version }}</title>
@@ -18,20 +18,24 @@
         text-align: left;
         background: #343a40;
         color: white !important;
-        
       }
     </style>
+    <script type="text/javascript">
+      function getLocalTime(element_id, epoch_time) {
+          var localTime = new Date(epoch_time);
+          document.getElementById(element_id).innerHTML = localTime.toDateString() + " " + localTime.toLocaleTimeString();
+      }
+    </script>
   <body>
     <header>
       {% include 'includes/_navbar.html' %} 
     </header>
 
-    <main role="main" class="flex-shrink-0">
-      <div class="container-fluid" style="padding-left:5%;padding-right:5%;padding-top:2%;margin-top:56px">
-        {% include 'includes/_messages.html' %}
-        {% block body %}{% endblock %}
-      </div>
-    </main>
+    <div class="container-fluid" style="padding-left:5%;padding-right:5%;padding-top:2%;margin-top:56px">
+      {% include 'includes/_messages.html' %}
+      {% block body %}{% endblock %}
+    </div>
+
 
     <!-- <footer class="footer">
       {% include 'includes/_footer.html' %}

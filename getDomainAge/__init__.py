@@ -20,8 +20,7 @@ class GetDomainAge:
         import getDomainAge.controllers.app
         from getDomainAge.services.database import DatabaseService
 
-        database_service = DatabaseService()
-        database_service.initialize()
+        DatabaseService().initialize()
 
         # starting flask web application
         app.logger.info('Starting web server')

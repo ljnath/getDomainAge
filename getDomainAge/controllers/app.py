@@ -6,12 +6,11 @@ import getDomainAge.controllers.apis.job
 import getDomainAge.controllers.apis.login
 import getDomainAge.controllers.error
 from flask import redirect, render_template, request, session, url_for
-from flask.wrappers import Response
 from getDomainAge import app
 from getDomainAge.controllers import has_logged_in
 from getDomainAge.handlers.environment import Environment
-from getDomainAge.models.enums import (Endpoint, HttpHeader, HttpMethod,
-                                       SessionParam, SiteLink, Template)
+from getDomainAge.models.enums import (Endpoint, HttpMethod, SessionParam,
+                                       SiteLink, Template)
 from getDomainAge.models.forms.add_job import AddJobForm
 from getDomainAge.services.database import DatabaseService
 from getDomainAge.services.job import JobService
@@ -78,18 +77,4 @@ def job():
     if request.method == HttpMethod.POST.value:
         return redirect(Endpoint.API_JOB_ADD.value, code=307)
 
-    return render_template(Template.JOB.value, form=add_job_form)
-
-
-@app.route(f'/{Endpoint.RELOAD_CACHE.value}', methods=[HttpMethod.POST.value])
-def update_cache():
-    """
-    endpoint: /getDomainAge/job/update
-    Method to update the local job cache
-    :param : force as boolean if the cache update needs to be forcefully done
-    """
-    if request.headers[HttpHeader.API_KEY.value] == env.api_secrect_key:
-        env.cached_jobs = db_service.get_all_jobs()
-
-    # TODO: try to return valid HTTP code 204
-    return Response("{'status':'cache refeshed'}", status=204, mimetype='application/json')
+    return render_template(Template.ADD_JOB.value, form=add_job_form)

@@ -11,11 +11,6 @@ class Endpoint(Enum):
     ROOT = '/'
     APP_NAME = f'{ROOT}getDomainAge'
     DASHBOARD = f'{APP_NAME}/dashboard'
-    DOWNLOAD = f'{APP_NAME}/download'
-    JOB = f'{APP_NAME}/job'
-    LOGIN = f'{APP_NAME}/login'
-    LOGOUT = f'{APP_NAME}/logout'
-    RELOAD_CACHE = f'{JOB}/reloadCache'
 
     API = f'{APP_NAME}/api'
 
@@ -114,6 +109,6 @@ class Template(Enum):
     This is used while rendering
     """
     INDEX = 'index.html'
-    DASHBOARD = 'dashboard.html'
-    JOB = 'job.html'
+    VIEW_JOBS = 'view_jobs.html'
+    ADD_JOB = 'add_job.html'
     ERROR = 'error.html'

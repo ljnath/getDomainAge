@@ -31,12 +31,19 @@ class DatabaseService:
         self.__env.sqlalchemy_base.metadata.create_all(self.__env.sqlalchemy_engine)
         self.__logger.info('Successfully initialized database')
 
-    def get_job(self, job_id) -> Job:
+    def get_job_by_id(self, job_id) -> Job:
         """
         method to search for a single Job record for id and return it
         :return Job : result job record
         """
         return self.__session.query(Job).filter_by(id=job_id).first()
+
+    def get_all_jobs_by_requestor(self, requestor) -> list:
+        """
+        method to search for al Job records requested by requestor and return it
+        :return Jobs : list of jobs
+        """
+        return self.__session.query(Job).filter_by(requestor=requestor)
 
     def get_all_jobs(self) -> list:
         """

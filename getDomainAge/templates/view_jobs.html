@@ -34,7 +34,9 @@
               <td>{{ job.requested_by }}</td>
               {% set ids = job.urls.split(',') %}
               <td>{{ ids|length }}</td>
-              <td>{{ requested_on }}</td>
+              <td id= 'reqestedTime{{job.id}}'>
+                <script type="text/javascript"> getLocalTime('reqestedTime{{job.id}}', {{ job.requested_on * 1000 }});</script>
+              </td>
               {% if job.status == 'RUNNING' %}
                 <td class="text-uppercase text-primary">{{ job.status }}</td>
               {% elif job.status == 'PENDING' %}
@@ -43,9 +45,9 @@
                 <td class="text-uppercase text-dark">{{ job.status }}</td>
               {% endif %}
 
-              <td>
+              <td id= 'completedTime{{job.id}}'>
                   {% if job.completed_on != None %}
-                    {{ job.completed_on.strftime('%Y-%m-%d %H:%M:%S') }}
+                    <script type="text/javascript"> getLocalTime('completedTime{{job.id}}', {{ job.completed_on * 1000 }});</script>
                   {% endif %}
               </td>
               <td>

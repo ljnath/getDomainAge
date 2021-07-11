@@ -31,15 +31,20 @@ def api_add_view():
     except ValueError:
         page_number = 1
 
-    jobs_to_view = env.cached_jobs if session[SessionParam.VIEW_ALL.value] else [job for job in env.cached_jobs if job.requested_by.lower() == session[SessionParam.EMAIL.value]]
-    number_of_jobs = len(jobs_to_view)
+    jobs = []
+    if session[SessionParam.VIEW_ALL.value]:
+        jobs = job_service.get_all_jobs()
+    else:
+        jobs = job_service.get_job_by_requestor(session[SessionParam.EMAIL.value])
+
+    number_of_jobs = len(jobs)
 
     max_page = int(number_of_jobs / env.app_job_per_page) + (0 if number_of_jobs % env.app_job_per_page == 0 else 1)
     previous_page, next_page = UIService().get_prev_next_page_number(max_page, page_number)
 
-    valid_jobs = jobs_to_view[::-1][env.app_job_per_page * (page_number - 1):env.app_job_per_page * page_number]
+    valid_jobs = jobs[::-1][env.app_job_per_page * (page_number - 1):env.app_job_per_page * page_number]
 
-    return render_template(Template.DASHBOARD.value, all_jobs=valid_jobs, page=page_number, last=max_page, start=previous_page, end=next_page)
+    return render_template(Template.VIEW_JOBS.value, all_jobs=valid_jobs, page=page_number, last=max_page, start=previous_page, end=next_page)
 
 
 @app.route(f'/{Endpoint.API_JOB_ADD.value}', methods=[HttpMethod.POST.value])
@@ -71,7 +76,7 @@ def api_add_job():
 
         return redirect(url_for(SiteLink.DASHBOARD.value))
 
-    return render_template(Template.JOB.value, form=add_job_form)
+    return render_template(Template.ADD_JOB.value, form=add_job_form)
 
 
 # @app.route(f'/{Endpoint.DOWNLOAD.value}/<filename>', methods=[HttpMethod.GET.value])

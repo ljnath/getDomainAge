@@ -9,7 +9,8 @@ from sqlalchemy.orm import declarative_base
 class Environment(metaclass=Singleton):
     def __init__(self):
         self.__is_initialized = False
-        self.__cached_jobs = None
+        self.__memcached_jobs = None
+        self.__memcached_domain = {}
         self.__sqlalchemy_engine = None
         self.__sqlalchemy_base = declarative_base()
 
@@ -79,7 +80,7 @@ class Environment(metaclass=Singleton):
 
     @property
     @__check_environment
-    def cache_path(self):
+    def cached_domain_path(self):
         return f'{self.__workspace_path}/domain.cache'
 
     @property
@@ -144,13 +145,23 @@ class Environment(metaclass=Singleton):
 
     @property
     @__check_environment
-    def cached_jobs(self):
-        return self.__cached_jobs
+    def memcached_jobs(self):
+        return self.__memcached_jobs
 
-    @cached_jobs.setter
+    @memcached_jobs.setter
     @__check_environment
-    def cached_jobs(self, value):
-        self.__cached_jobs = value
+    def memcached_jobs(self, value):
+        self.__memcached_jobs = value
+
+    @property
+    @__check_environment
+    def memcached_domain(self):
+        return self.__memcached_domain
+
+    @memcached_domain.setter
+    @__check_environment
+    def memcached_domain(self, value):
+        self.__memcached_domain = value
 
     @property
     @__check_environment
