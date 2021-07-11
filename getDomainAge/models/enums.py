@@ -13,8 +13,19 @@ class Endpoint(Enum):
     DASHBOARD = f'{APP_NAME}/dashboard'
     DOWNLOAD = f'{APP_NAME}/download'
     JOB = f'{APP_NAME}/job'
-    RELOAD_CACHE = f'{JOB}/reloadCache'
+    LOGIN = f'{APP_NAME}/login'
     LOGOUT = f'{APP_NAME}/logout'
+    RELOAD_CACHE = f'{JOB}/reloadCache'
+
+    API = f'{APP_NAME}/api'
+
+    API_LOGIN = f'{API}/login'
+    API_LOGOUT = f'{API}/logout'
+
+    API_JOB = f'{API}/job'
+    API_JOB_ADD = f'{API_JOB}/add'
+    API_JOB_VIEW = f'{API_JOB}/view'
+    API_JOB_DOWNLOAD = f'{API_JOB}/download'
 
 
 class FormParam(Enum):
@@ -24,16 +35,6 @@ class FormParam(Enum):
     Storing all these as enums prevents typos in code and improves future maintainability
     """
     EMAIL = 'email'
-
-
-class GetParam(Enum):
-    """
-    GetParam enum stores all the supported GET parameters used in this application
-    These parameters are passed while making a GET call
-    Storing all these as enums prevents typos in code and improves future maintainability
-    """
-    VIEW_ALL = 'viewall'
-    PAGE = 'page'
 
 
 class HttpHeader(Enum):
@@ -72,6 +73,19 @@ class NotificationCategory(Enum):
     DANGER = 'danger'
 
 
+class RequestParam(Enum):
+    """
+    RequestParam enum stores all the supported GET and POST parameters used in this application
+    These parameters are passed while making a GET/POST call
+    Storing all these as enums prevents typos in code and improves future maintainability
+    """
+    VIEW_ALL = 'viewall'
+    PAGE = 'page'
+    EMAIL = 'email'
+    API_KEY = 'api_key'
+    ALL = 'all'
+
+
 class SessionParam(Enum):
     """
     SessionParam enum stores all the session parameter that are used throughout this application.
@@ -91,6 +105,7 @@ class SiteLink(Enum):
     """
     HOMEPAGE = 'homepage'
     DASHBOARD = 'dashboard'
+    LOGIN = 'login'
 
 
 class Template(Enum):

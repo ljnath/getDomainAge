@@ -6,10 +6,10 @@
     <div class="navbar-collapse collapse" id="navbarNav">
       <ul class="navbar-nav ml-auto">
           {% if session.logged_in %}
-            <li class="nav-item"><a class="nav-link {% if session.page_index == 0 %}active{% endif %}" href="/getDomainAge/job">Add New Job</a></li>
-            <li class="nav-item"><a class="nav-link {% if session.page_index == 1 %}active{% endif %}" href="/getDomainAge/dashboard?viewall=false">View My Jobs</a></li>
-            <li class="nav-item"><a class="nav-link {% if session.page_index == 2 %}active{% endif %}" href="/getDomainAge/dashboard?viewall=true">View All Jobs</a></li>
-            <li class="nav-item"><a class="nav-link {% if session.page_index == 3 %}active{% endif %}" href="/getDomainAge/logout">Logout</a></li>
+            <li class="nav-item"><a class="nav-link {% if session.page_index == 0 %}active{% endif %}" href="/getDomainAge/api/job">Add New Job</a></li>
+            <li class="nav-item"><a class="nav-link {% if session.page_index == 1 %}active{% endif %}" href="/getDomainAge/api/job/view">View My Jobs</a></li>
+            <li class="nav-item"><a class="nav-link {% if session.page_index == 2 %}active{% endif %}" href="/getDomainAge/api/job/view?all">View All Jobs</a></li>
+            <li class="nav-item"><a class="nav-link {% if session.page_index == 3 %}active{% endif %}" href="/getDomainAge/api/logout">Logout</a></li>
           {% endif %} 
       </ul>
     </div>

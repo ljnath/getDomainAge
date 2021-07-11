@@ -12,7 +12,7 @@ class DatabaseService:
     """
     def __init__(self):
         self.__env = Environment()
-        self.__logger = LogHandler.get_logger(self.__env.app_name, self.__env.log_path)
+        self.__logger = LogHandler.get_logger(__name__, self.__env.log_path)
 
         # creating SQLAlchemy DB engine, if it is not created before
         # there should be a single DB engine, therefore stroing the instance as an environment property
@@ -41,10 +41,13 @@ class DatabaseService:
     def get_all_jobs(self) -> list:
         """
         method to search for all records of job in the database and return it as a list
+
+        Here instead of using the existing session, a new session is created because 'SQLite objects created in a thread can only be used in that same thread'
         :return result : list of all job records
         """
         self.__logger.info('Fetching all job records from databse')
-        return self.__session.query(Job).all()
+        with Session(bind=self.__env.sqlalchemy_engine) as local_session:
+            return local_session.query(Job).all()
 
     def add_job(self, job):
         """
@@ -52,8 +55,10 @@ class DatabaseService:
         :param job: new Job record to add into the database
         """
         try:
-            self.__session.add(job)
-            self.__session.commit()
+            with Session(bind=self.__env.sqlalchemy_engine) as local_session:
+                local_session.add(job)
+                local_session.commit()
+                self.__logger.info('Successfully commited database with new Job')
         except Exception as e:
             NotificationService().notify_failure('Failed to add your job because of a database error. Please try again')
             self.__logger.error('Failed to add job because of database error')
