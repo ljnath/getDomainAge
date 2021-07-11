@@ -1,8 +1,8 @@
 # getDomainAge
-### Version : 0.2
+### Version : 0.3
 
 Author : Lakhya Jyoti Nath (ljnath)<br>
-Date : June 2019<br>
+Date : June 2019 - July 2021<br>
 Email : ljnath@ljnath.com<br>
 Website : https://www.ljnath.com
 

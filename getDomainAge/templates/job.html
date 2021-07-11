@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <h4>Add a new job</h4>
+  {% from "includes/_formhelpers.html" import render_field %}
+  <div>
+    <form method="POST" action="">
+        <div class="form-group">
+            {{ render_field(form.urls, class_="form-control") }}
+          </div>
+        </div>
+        <div class="text-right">
+            <input class="btn btn-primary" type="submit" value="Add Job">
+        </div>
+    </form>
+</div>
+{% endblock %}
+  

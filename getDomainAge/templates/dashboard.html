@@ -1,0 +1,83 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <h4>Hello {{ session.email.split('@')[0].split('.')[0] }},</h4>
+  <span>Welcome to getDomainAge. You can continue by addding a new job. You will receive the results via email or you can download it using the download button.</span>
+<div>
+</br>
+</br>
+</div>
+  <div>
+    <h5>
+        {% if all_jobs %}
+          List of jobs submitted by {% if session.page_index == 1 %} you {% elif session.page_index == 2 %} all users {% endif %}
+        {% else %}
+        No jobs to display
+        {% endif %}
+    </h5>
+
+    {% if all_jobs %}
+      <div class="table-responsive">
+          <table class="table table-hover table-striped text-left">
+          <tr class="thead-light">
+              <th>Job Id</th>
+              <th>Submitted By</th>
+              <th>URL count</th>
+              <th>Submitted On (IST)</th>
+              <th>Status</th>
+              <th>Completed On (IST)</th>
+              <th>Download</th>
+          </tr>
+          {% for job in all_jobs %}
+              <tr>
+              <td>{{ job.id }}</td>
+              <td>{{ job.requested_by }}</td>
+              {% set ids = job.urls.split(',') %}
+              <td>{{ ids|length }}</td>
+              
+              {% if job.status == 'RUNNING' %}
+                <td class="text-uppercase text-primary">{{ job.status }}</td>
+              {% elif job.status == 'PENDING' %}
+                <td class="text-uppercase text-warning">{{ job.status }}</td>
+              {% elif job.status == 'COMPLETED' %}
+                <td class="text-uppercase text-dark">{{ job.status }}</td>
+              {% endif %}
+
+              <td>
+                  {% if job.completed_on != None %}
+                    {{ job.completed_on.strftime('%Y-%m-%d %H:%M:%S') }}
+                  {% endif %}
+              </td>
+              <td>
+                  {% if job.status == 'COMPLETED' and session['email'] == job.requested_by.lower() %}
+                    <a class="badge badge-secondary" href="/getDomainAge/download/{{ job.job_id }}.csv">Download</a>
+                  {% endif %}
+              </td>
+          {% endfor %}
+          </table>
+        </div>
+
+        <ul class="pagination justify-content-end">
+              {% if page == 1 %}
+                <li class="page-item disabled"> <a class="page-link" href="#">First</a></li>
+                <li class="page-item disabled"> <a class="page-link" href="#">&lt;&lt;</a></li>
+              {% else %}
+                <li class="page-item"> <a class="page-link" href="/getDomainAge/dashboard?page=1">First</a></li>
+                <li class="page-item"> <a class="page-link" href="/getDomainAge/dashboard?page={{ page-1 }}">&lt;&lt;</a></li>
+              {% endif %}
+              
+              {% for i in range(start, end+1) %}
+                  <li class="page-item {% if i == page %}active {% endif %} {% if i > last or i < 1 %}disabled{% endif %}"> <a class="page-link" href="/getDomainAge/dashboard?page={{ i }}">{{ i }}</a></li>
+              {% endfor %}
+    
+              {% if page == last  %}
+                <li class="page-item disabled"><a class="page-link" href=#">&gt;&gt;</a></li>
+                <li class="page-item disabled"><a class="page-link" href="#">Last</a></li>  
+              {% else %}
+                  <li class="page-item"><a class="page-link" href="/getDomainAge/dashboard?page={{ page + 1 }}">&gt;&gt;</a></li>
+                  <li class="page-item"><a class="page-link" href="/getDomainAge/dashboard?page={{ last }}">Last</a></li>
+              {% endif %}
+        </ul>
+      {% endif %}
+  </div>
+{% endblock %}
