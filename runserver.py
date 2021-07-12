@@ -1,12 +1,12 @@
 
 import argparse
 import sys
-from getDomainAge import app
-from getDomainAge import GetDomainAge
+
+from getDomainAge import GetDomainAge, app
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('-c', '--config', nargs=1, help='Path to application config file')
+    parser.add_argument('-c', '--config', nargs=1, help='Complete path to application config file')
     args = parser.parse_args()
     
     if not args.config:

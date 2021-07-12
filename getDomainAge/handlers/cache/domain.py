@@ -41,7 +41,7 @@ class DomainCacheHandler:
                 pickle.dump(self.__env.memcached_domain, file_handler)
                 self.__logger.info('Successfully saved domain cache to disk')
         except pickle.PickleError as pe:
-            self.__logger.error(f'Failed to save cached domain onto  {self.__env.cached_domain_path}')
+            self.__logger.error(f'Failed to save cached domain onto {self.__env.cached_domain_path}')
             self.__logger.exception(pe, exc_info=True)
 
     def load_from_disk(self):
@@ -55,7 +55,7 @@ class DomainCacheHandler:
                     self.__env.memcached_domain = pickle.load(file_handler)
                     self.__logger.info(
                         f'Successfully loaded {len(self.__env.memcached_domain.keys())} '\
-                            'domain details from cache file {self.__env.cached_domain_path}')
+                            f'domain details from cache file {self.__env.cached_domain_path}')
             except pickle.PickleError as pe:
                 self.__env.memcached_domain = {}
                 self.__logger.error(f'Failed to load cached domain from {self.__env.cached_domain_path}')

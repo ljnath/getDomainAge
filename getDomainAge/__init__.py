@@ -5,6 +5,7 @@ from flask import Flask
 
 from getDomainAge.handlers.config import ConfigHandler
 from getDomainAge.handlers.environment import Environment
+from getDomainAge.handlers.log import LogHandler
 
 app = Flask(__name__)
 
@@ -17,6 +18,9 @@ class GetDomainAge:
 
     def run(self):
         env = Environment()
+        
+        app.logger = LogHandler.get_logger('werkzeug', env.log_path)
+        
 
         import getDomainAge.controllers.app
         from getDomainAge.handlers.cache.domain import DomainCacheHandler

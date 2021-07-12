@@ -4,7 +4,6 @@ class BaseException(Exception):
     """
     def __init__(self, message=None):
         super().__init__()
-        # self.logger = LogHandler().get_logger()
         if message:
             print(message)
 

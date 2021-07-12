@@ -15,10 +15,10 @@ class WorkerService():
     """
     def __init__(self):
         self.__env = Environment()
-        self.__logger = LogHandler().get_logger(__name__, self.__env.log_path)
+        self.__logger = LogHandler.get_logger(__name__, self.__env.log_path)
         self.__job_service = JobService()
         self.__domain_service = DomainService()
-        self.__logger.info('Started worker service')
+        self.__logger.info('Worker service initialized')
 
     def run(self):
         """
@@ -35,6 +35,7 @@ class WorkerService():
         self.__job_service.udpate_cache()
 
         email_service = EmailService()
+        self.__logger.info('Starting worker service')
         while True:
             is_running = False
             pending_job = self.__job_service.get_pending_job()

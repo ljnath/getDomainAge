@@ -4,7 +4,7 @@
 # pull the python3 based alpine linux
 FROM frolvlad/alpine-python3
 
-LABEL build_version="ljnath/GetDomainAge version: 0.3"
+LABEL build_version="ljnath/getDomainAge version: 0.3"
 
 # installing pre-requisites for build pyton pip packages
 RUN apk update  && apk add --no-cache build-base python3-dev libffi-dev gcc musl-dev make libevent-dev build-base

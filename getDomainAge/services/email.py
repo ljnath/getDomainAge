@@ -12,7 +12,7 @@ from getDomainAge.handlers.log import LogHandler
 class EmailService:
     def __init__(self):
         self.__env = Environment()
-        self.__logger = LogHandler().get_logger(__name__, self.__env)
+        self.__logger = LogHandler().get_logger(__name__, self.__env.log_path)
 
     def send_email(self, job_id: int, receiver_email: str, result_file: str) -> bool:
         """
