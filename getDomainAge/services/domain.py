@@ -66,8 +66,8 @@ class DomainService:
             response = requests.get(f'{self.__env.whois_url}/{domain_name}')
             if response.status_code != 200:
                 self.__logger.error(
-                    f'Received invalid response from remote URL {self.__env.whois_url}. \
-                        Expected 200, received {response.status_code}')
+                    f'Received invalid response from remote URL {self.__env.whois_url}.'\
+                        'Expected 200, received {response.status_code}')
             else:
                 # parsing logic is volatile as it will break if whois.com changes their site layout
                 beautiful_soup = BeautifulSoup(response.text, 'html.parser')
