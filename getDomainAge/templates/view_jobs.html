@@ -23,34 +23,42 @@
               <th>Job Id</th>
               <th>Submitted By</th>
               <th>URL count</th>
-              <th>Submitted On (IST)</th>
+              <th>Submitted On (Local TZ)</th>
               <th>Status</th>
-              <th>Completed On (IST)</th>
+              <th>Completed On (Local TZ)</th>
               <th>Download</th>
           </tr>
           {% for job in all_jobs %}
               <tr>
-              <td>{{ job.job_id }}</td>
-              <td>{{ job.requested_by }}</td>
+              <td>{{ job.id }}</td>
+              <td>
+                {% if session['email'] == job.requested_by.lower() %}
+                  {{ job.requested_by }}
+                {% else %}
+                  {{ job.requested_by[0] + (job.requested_by.split('@')[0]|length * '*') + '@' +  job.requested_by.split('@')[1]|length * '*' +  job.requested_by[-1]}}
+                {% endif %}
+              </td>
               {% set ids = job.urls.split(',') %}
               <td>{{ ids|length }}</td>
-              <td>{{ job.requested_on.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+              <td id= 'reqestedTime{{job.id}}'>
+                <script type="text/javascript"> getLocalTime('reqestedTime{{job.id}}', {{ job.requested_on * 1000 }});</script>
+              </td>
               {% if job.status == 'RUNNING' %}
                 <td class="text-uppercase text-primary">{{ job.status }}</td>
               {% elif job.status == 'PENDING' %}
                 <td class="text-uppercase text-warning">{{ job.status }}</td>
-              {% elif job.status == 'COMPLETED' %}
+              {% elif job.status == 'COMPLETED' or job.status == 'MAIL FAILED' %}
                 <td class="text-uppercase text-dark">{{ job.status }}</td>
               {% endif %}
 
-              <td>
+              <td id= 'completedTime{{job.id}}'>
                   {% if job.completed_on != None %}
-                    {{ job.completed_on.strftime('%Y-%m-%d %H:%M:%S') }}
+                    <script type="text/javascript"> getLocalTime('completedTime{{job.id}}', {{ job.completed_on * 1000 }});</script>
                   {% endif %}
               </td>
               <td>
-                  {% if job.status == 'COMPLETED' and session['email'] == job.requested_by.lower() %}
-                    <a class="badge badge-secondary" href="/getDomainAge/download/{{ job.job_id }}.csv">Download</a>
+                  {% if (job.status == 'COMPLETED' or job.status == 'MAIL FAILED') and session['email'] == job.requested_by.lower() %}
+                    <a class="badge badge-secondary" href="download/{{ job.id }}">Download</a>
                   {% endif %}
               </td>
           {% endfor %}
@@ -62,20 +70,20 @@
                 <li class="page-item disabled"> <a class="page-link" href="#">First</a></li>
                 <li class="page-item disabled"> <a class="page-link" href="#">&lt;&lt;</a></li>
               {% else %}
-                <li class="page-item"> <a class="page-link" href="/getDomainAge/dashboard?page=1">First</a></li>
-                <li class="page-item"> <a class="page-link" href="/getDomainAge/dashboard?page={{ page-1 }}">&lt;&lt;</a></li>
+                <li class="page-item"> <a class="page-link" href="view?page=1{{'&all' if session.page_index == 2 else ''}}">First</a></li>
+                <li class="page-item"> <a class="page-link" href="view?page={{ page-1 }}{{'&all' if session.page_index == 2 else ''}}">&lt;&lt;</a></li>
               {% endif %}
               
               {% for i in range(start, end+1) %}
-                  <li class="page-item {% if i == page %}active {% endif %} {% if i > last or i < 1 %}disabled{% endif %}"> <a class="page-link" href="/getDomainAge/dashboard?page={{ i }}">{{ i }}</a></li>
+                  <li class="page-item {% if i == page %}active {% endif %} {% if i > last or i < 1 %}disabled{% endif %}"> <a class="page-link" href="view?page={{ i }}{{'&all' if session.page_index == 2 else ''}}">{{ i }}</a></li>
               {% endfor %}
     
               {% if page == last  %}
                 <li class="page-item disabled"><a class="page-link" href=#">&gt;&gt;</a></li>
                 <li class="page-item disabled"><a class="page-link" href="#">Last</a></li>  
               {% else %}
-                  <li class="page-item"><a class="page-link" href="/getDomainAge/dashboard?page={{ page + 1 }}">&gt;&gt;</a></li>
-                  <li class="page-item"><a class="page-link" href="/getDomainAge/dashboard?page={{ last }}">Last</a></li>
+                  <li class="page-item"><a class="page-link" href="view?page={{ page + 1 }}{{'&all' if session.page_index == 2 else ''}}">&gt;&gt;</a></li>
+                  <li class="page-item"><a class="page-link" href="view?page={{ last }}{{'&all' if session.page_index == 2 else ''}}">Last</a></li>
               {% endif %}
         </ul>
       {% endif %}
