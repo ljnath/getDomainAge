@@ -67,7 +67,7 @@ class EmailService:
             smtp_server.sendmail(email_message['From'], email_message['To'], email_message.as_string())
             smtp_server.quit()
             self.__logger.info(
-                f'Successfully emailed results for job #{job_id} {receiver_email} and attached {os.path.basename(result_file)}')
+                f'Successfully mailed results of job #{job_id} {receiver_email} with {os.path.basename(result_file)} attached')
 
         except Exception as e:
             mail_status = False

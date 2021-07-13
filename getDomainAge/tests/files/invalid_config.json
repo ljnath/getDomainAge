@@ -1,0 +1,18 @@
+{
+    "workspace_path": "/workspace/my_workspace",
+    "server": {
+        "host": "",
+        "port": 80,
+        "debug": false
+    },
+    "smtp": {
+        "host": "",
+        "port": 25,
+        "username": "",
+        "password": "",
+        "sender_email": ""
+    },
+    "application": {
+        "jobs_per_page": 10
+    }
+}

@@ -18,9 +18,8 @@ class GetDomainAge:
 
     def run(self):
         env = Environment()
-        
+
         app.logger = LogHandler.get_logger('werkzeug', env.log_path)
-        
 
         import getDomainAge.controllers.app
         from getDomainAge.handlers.cache.domain import DomainCacheHandler
