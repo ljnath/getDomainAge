@@ -6,20 +6,21 @@ Date: June 2019 - July 2021<br>
 Email: ljnath@ljnath.com<br>
 Website: https://ljnath.com
 
+[![](https://img.shields.io/github/license/ljnath/getdomainage)](https://github.com/ljnath/getDomainAge)
+![Lines of code](https://img.shields.io/tokei/lines/github/ljnath/getDomainAge)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/ljnath/getDomainAge)
+![GitHub search hit counter](https://img.shields.io/github/search/ljnath/getDomainAge/getDomainAge)
+[![codecov](https://codecov.io/gh/ljnath/getDomainAge/branch/master/graph/badge.svg?token=nwi6SmUvjF)](https://codecov.io/gh/ljnath/getDomainAge)
+
+![GitHub Workflow Status(https://github.com/ljnath/getDomainAge/actions)](https://img.shields.io/github/workflow/status/ljnath/getDomainAge/E2E%20getDomainAge%20workflow)
 [![](https://img.shields.io/docker/pulls/ljnath/getdomainage)](https://hub.docker.com/r/ljnath/getdomainage)
 ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/ljnath/getdomainage/latest)
 [![](https://images.microbadger.com/badges/version/ljnath/getdomainage.svg)](https://microbadger.com/images/ljnath/getdomainage)
-[![](https://img.shields.io/github/license/ljnath/getdomainage)](https://github.com/ljnath/getDomainAge)
-
-![GitHub branch checks state](https://img.shields.io/github/checks-status/ljnath/getDomainAge/master)
-![GitHub Action - Docker CI](https://img.shields.io/github/workflow/status/ljnath/getDomainAge/Docker%20Image%20CI)
-![GitHub Action - Python Application](https://img.shields.io/github/workflow/status/ljnath/getDomainAge/Python%20application)
-![GitHub search hit counter](https://img.shields.io/github/search/ljnath/getDomainAge/getDomainAge)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/ljnath/getDomainAge)
-![Lines of code](https://img.shields.io/tokei/lines/github/ljnath/getDomainAge)
 
 
-## What is it?
+
+
+## What is it ?
 
 getDomainAge is a web application which can provide the age of a given domain name.
 User can login using their email and they can add a job with one or more URLs. The application will pick these jobs sequentially and process these.
@@ -28,7 +29,7 @@ Job processing includes parsing the domain name from the URL, fetching its regis
 The intention of this project is to demonstrate flask for API development, SQLAlchemy for ORM and beautifulsoup for HTML parsing.
 </br></br>
 
-## How it works?
+## How it works ?
 
 This application mainly consists of 2 components viz. application-server and worker-service.
 1. Application server - This is built around flask which has a handful of APIs for user login, logout, addition of job, viewing of job and file download.
@@ -36,7 +37,7 @@ This application mainly consists of 2 components viz. application-server and wor
 2. Worker service - This is an independent component which runs on a separate thread. It is responsible for picking up task from the database and completing those.
 </br></br>
 
-## What is the workflow?
+## What is the workflow ?
 
 - It works by scrapping the domain registration date from https://www.whois.com/
 - User places their job request using the web portal where they can enter one or more URLs in comma or new-line separated manner. Jobs are stored in SQLite DB using SQLAlchemy
@@ -81,7 +82,7 @@ Following is the explained config file
 </br>
 
 
-## How to run in non-containerized environment?
+## How to run in local ?
 
 - Clone the git repository
 ```
