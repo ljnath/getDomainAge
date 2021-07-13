@@ -36,7 +36,7 @@ def test_config_handler_with_missing_input():
     with pytest.raises(InvalidInput):
         ConfigHandler('sample.config')
 
-
+@patch('os.path.exists', MockedUtil().get_true)
 @patch('os.path.isfile', MockedUtil().get_false)
 def test_config_handler_with_directory():
     with pytest.raises(InvalidInput):
@@ -52,11 +52,16 @@ def test_config_handler_with_valid_input():
         assert False, 'No exception should be raised, if config file is correct'
 
 
-def test_config_handler_with_invalid_json():
+def test_config_handler_with_invalid_json1():
     with pytest.raises(MissingConfiguration):
-        config_handler = ConfigHandler(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'files/invalid_config.json'))
+        config_handler = ConfigHandler(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'files/invalid1.json'))
         config_handler.load()
 
+
+def test_config_handler_with_invalid_json2():
+    with pytest.raises(MissingConfiguration):
+        config_handler = ConfigHandler(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'files/invalid2.json'))
+        config_handler.load()
 
 def test_config_handler_with_valid_json():
     try:

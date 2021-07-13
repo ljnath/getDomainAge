@@ -5,6 +5,9 @@
 test:
 	pytest -v
 
+test-cov:
+	pytest -v --cov=getDomainAge --cov-report=xml
+
 # target to perform lint check using pytest-flake8
 lint:
 	pytest --flake8 -v
