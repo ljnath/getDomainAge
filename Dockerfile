@@ -1,13 +1,8 @@
-# Written by ljnath (www.ljnath.com) | Feb 5th, 2020
-# Updated on 12th July, 2021
+# Written by ljnath (www.ljnath.com) | 5th Feb, 2020
+# Updated on 13th July, 2021
 
-# pull the python3 based alpine linux
-FROM frolvlad/alpine-python3
-
-LABEL build_version="ljnath/getDomainAge version: 0.3"
-
-# installing pre-requisites for build pyton pip packages
-RUN apk update  && apk add --no-cache build-base python3-dev libffi-dev gcc musl-dev make libevent-dev build-base
+# pull the official python docker image
+FROM amd64/python:3.9-slim
 
 # creating and configure the working directory for the getDomainAge application
 RUN mkdir -p /getDomainAge && mkdir -p /workspace
@@ -21,8 +16,7 @@ ARG CONFIG_FILE
 ENV CONFIG_FILE=${CONFIG_FILE}
 
 # copy all the required file and folders needed to run the application
-COPY requirements.txt ./
-COPY runserver.py runserver.py
+COPY requirements.txt runserver.py ./
 COPY getDomainAge getDomainAge
 
 # install all python dependencies using pip

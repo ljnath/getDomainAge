@@ -1,10 +1,12 @@
-from unittest.mock import patch
 import os
+from unittest.mock import patch
+
 import pytest
 from getDomainAge.handlers.config import ConfigHandler
 from getDomainAge.handlers.environment import Environment
 from getDomainAge.handlers.exception import (InvalidInput,
-                                             UninitializedEnvironment, MissingConfiguration)
+                                             MissingConfiguration,
+                                             UninitializedEnvironment)
 from getDomainAge.handlers.log import LogHandler
 from getDomainAge.tests.mocked_util import MockedUtil
 
@@ -62,6 +64,7 @@ def test_config_handler_with_invalid_json2():
     with pytest.raises(MissingConfiguration):
         config_handler = ConfigHandler(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'files/invalid2.json'))
         config_handler.load()
+
 
 def test_config_handler_with_valid_json():
     try:
