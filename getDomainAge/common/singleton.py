@@ -16,3 +16,12 @@ class Singleton(type):
                 **kwargs
             )
         return cls._instances[cls]
+
+    def clear(cls):
+        """
+        Method to forcefully delete the singleton instance
+        """
+        try:
+            del Singleton._instances[cls]
+        except KeyError:
+            pass

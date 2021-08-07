@@ -1,7 +1,6 @@
 import os
 import pickle
 from datetime import date
-
 from getDomainAge.handlers.environment import Environment
 from getDomainAge.handlers.log import LogHandler
 
@@ -24,7 +23,7 @@ class DomainCacheHandler:
         # returning None if the info is not preset in the cache
         return None
 
-    def update(self, domain_name: str, reg_date: str):
+    def update(self, domain_name: str, reg_date: str) -> None:
         """
         Method to update local cache with domain_name and registration date
         :param domain_name : domain name to cache
@@ -32,9 +31,9 @@ class DomainCacheHandler:
         """
         self.__env.memcached_domain[domain_name] = reg_date
 
-    def save_to_disk(self):
+    def save_to_disk(self) -> None:
         """
-        Method to save the domain cahce onto disk
+        Method to save the domain cache onto disk from environment variable 'cached_domain_path'
         """
         try:
             with open(self.__env.cached_domain_path, 'wb') as file_handler:
@@ -44,9 +43,9 @@ class DomainCacheHandler:
             self.__logger.error(f'Failed to save cached domain onto {self.__env.cached_domain_path}')
             self.__logger.exception(pe, exc_info=True)
 
-    def load_from_disk(self):
+    def load_from_disk(self) -> None:
         """
-        Method to load cache from disk
+        Method to load cache from disk to environemnt variable 'cached_domain_path'
         """
         if os.path.exists(self.__env.cached_domain_path):
             self.__logger.debug(f'Domain cache file found at {self.__env.cached_domain_path} ; trying to load it now')

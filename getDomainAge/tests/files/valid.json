@@ -1,5 +1,5 @@
 {
-    "workspace_path": "/workspace/my_workspace",
+    "workspace_path": "my_workspace",
     "server": {
         "host": "valid_host",
         "port": 80,

@@ -2,7 +2,7 @@ import logging
 from logging.handlers import RotatingFileHandler
 
 
-class LogHandler():
+class LogHandler:
 
     @staticmethod
     def get_logger(name, filepath):

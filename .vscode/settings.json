@@ -1,3 +1,4 @@
 {
-    "python.pythonPath": "C:\\devtools\\Python36\\python.exe"
+    "python.pythonPath": "C:\\devtools\\Python36\\python.exe",
+    "python.languageServer": "Pylance"
 }

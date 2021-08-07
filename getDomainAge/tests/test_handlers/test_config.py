@@ -1,31 +1,13 @@
 import os
+from pathlib import Path
 from unittest.mock import patch
 
 import pytest
 from getDomainAge.handlers.config import ConfigHandler
-from getDomainAge.handlers.environment import Environment
-from getDomainAge.handlers.exception import (InvalidInput,
-                                             MissingConfiguration,
-                                             UninitializedEnvironment)
-from getDomainAge.handlers.log import LogHandler
+from getDomainAge.handlers.exception import InvalidInput, MissingConfiguration
 from getDomainAge.tests.mocked_util import MockedUtil
 
-
-def test_logger():
-    logger_1 = LogHandler().get_logger('test-logger', 'test.log')
-    logger_2 = LogHandler().get_logger('test-logger', 'test.log')
-    assert logger_1 == logger_2
-
-
-def test_uninitialized_environment():
-    with pytest.raises(UninitializedEnvironment):
-        Environment().app_name
-
-
-def test_singleton_environment():
-    env_1 = Environment()
-    env_2 = Environment()
-    assert env_1 == env_2
+files_directory = f'{Path(__file__).parent.parent.resolve()}/files'
 
 
 def test_config_handler_with_invalid_input():
@@ -37,6 +19,7 @@ def test_config_handler_with_invalid_input():
 def test_config_handler_with_missing_input():
     with pytest.raises(InvalidInput):
         ConfigHandler('sample.config')
+
 
 @patch('os.path.exists', MockedUtil().get_true)
 @patch('os.path.isfile', MockedUtil().get_false)
@@ -56,19 +39,22 @@ def test_config_handler_with_valid_input():
 
 def test_config_handler_with_invalid_json1():
     with pytest.raises(MissingConfiguration):
-        config_handler = ConfigHandler(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'files/invalid1.json'))
+        json_filepath = os.path.join(os.path.dirname(os.path.abspath(__file__)), f'{files_directory}/invalid1.json')
+        config_handler = ConfigHandler(json_filepath)
         config_handler.load()
 
 
 def test_config_handler_with_invalid_json2():
     with pytest.raises(MissingConfiguration):
-        config_handler = ConfigHandler(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'files/invalid2.json'))
+        json_filepath = os.path.join(os.path.dirname(os.path.abspath(__file__)), f'{files_directory}/invalid2.json')
+        config_handler = ConfigHandler(json_filepath)
         config_handler.load()
 
 
 def test_config_handler_with_valid_json():
     try:
-        config_handler = ConfigHandler(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'files/valid.json'))
+        json_filepath = os.path.join(os.path.dirname(os.path.abspath(__file__)), f'{files_directory}/valid.json')
+        config_handler = ConfigHandler(json_filepath)
         config_handler.load()
     except MissingConfiguration:
         assert False, 'Exception should not be raised when valid JSON file is used'

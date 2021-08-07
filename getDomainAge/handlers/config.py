@@ -1,5 +1,6 @@
 import json
 import os
+from typing import Dict
 
 from getDomainAge.handlers.exception import InvalidInput, MissingConfiguration
 
@@ -20,7 +21,7 @@ class ConfigHandler:
         if not os.path.isfile(self.__config_file):
             raise InvalidInput(f'Input configuation file {self.__config_file} is not a file')
 
-    def load(self):
+    def load(self) -> Dict[str, str]:
         """
         Method to load JSON file.
         :return json_configs : json_configs as dict . All user configuration as a dictionary
@@ -31,7 +32,7 @@ class ConfigHandler:
         self.__validate(json_configs)
         return json_configs
 
-    def __validate(self, json_configs):
+    def __validate(self, json_configs) -> None:
         """
         Method to validate if all the expected configuration are present in the input configuration file
         """
