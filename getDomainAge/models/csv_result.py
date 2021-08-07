@@ -1,5 +1,5 @@
 class CsvResult:
-    def __init__(self, url, domain_name='', age=0):
+    def __init__(self, url: str, domain_name: str = '', age: int = 0):
         self.__url = url
         self.__domain_name = domain_name
         self.__age = age

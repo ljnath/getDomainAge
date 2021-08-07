@@ -5,6 +5,8 @@ from os import path
 from pathlib import Path
 from unittest.mock import Mock, patch
 
+import pytest
+
 from getDomainAge.handlers.cache.domain import DomainCacheHandler
 from getDomainAge.handlers.environment import Environment
 from getDomainAge.tests.mocked_util import MockedUtil
@@ -56,3 +58,4 @@ def test_load_from_disk():
     domain_cache_handler = DomainCacheHandler()
     domain_cache_handler.load_from_disk()
     assert env.memcached_domain == cached_content
+    Environment.clear()

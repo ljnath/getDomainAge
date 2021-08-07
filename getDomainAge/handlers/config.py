@@ -1,6 +1,6 @@
 import json
 import os
-from typing import Dict
+from typing import Any, Dict
 
 from getDomainAge.handlers.exception import InvalidInput, MissingConfiguration
 
@@ -9,7 +9,7 @@ class ConfigHandler:
     """
     Class to read and load user configuration from a json file
     """
-    def __init__(self, config_file):
+    def __init__(self, config_file: str):
         self.__config_file = config_file
 
         if not self.__config_file:
@@ -21,7 +21,7 @@ class ConfigHandler:
         if not os.path.isfile(self.__config_file):
             raise InvalidInput(f'Input configuation file {self.__config_file} is not a file')
 
-    def load(self) -> Dict[str, str]:
+    def load(self) -> Dict[str, Any]:
         """
         Method to load JSON file.
         :return json_configs : json_configs as dict . All user configuration as a dictionary
@@ -32,7 +32,7 @@ class ConfigHandler:
         self.__validate(json_configs)
         return json_configs
 
-    def __validate(self, json_configs) -> None:
+    def __validate(self, json_configs: Dict[str, Any]) -> None:
         """
         Method to validate if all the expected configuration are present in the input configuration file
         """

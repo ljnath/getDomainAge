@@ -5,7 +5,16 @@ from logging.handlers import RotatingFileHandler
 class LogHandler:
 
     @staticmethod
-    def get_logger(name, filepath):
+    def get_logger(name: str, filepath: str) -> logging.Logger:
+        """
+        Static method to create an instance of logger.
+        The logger is created and cached, if this method is called with the same logger name,
+        then the previously created logger is returned
+
+        :param name: Name of logger
+        :param filepath: Complete filepath to the log file for writing log messages
+        :return logger : instance of logger
+        """
         logger = logging.getLogger(name)
         log_formatter = logging.Formatter(
             '%(asctime)s.%(msecs)03d - %(name)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')

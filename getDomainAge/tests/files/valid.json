@@ -8,7 +8,7 @@
     "smtp": {
         "host": "smtp-host",
         "port": 25,
-        "username": "smtp-usernmae",
+        "username": "smtp-username",
         "password": "smtp-password",
         "sender_email": "smtp-sender-email"
     },

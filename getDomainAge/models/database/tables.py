@@ -34,7 +34,7 @@ class Jobs(Environment().sqlalchemy_base):
     urls = Column('urls', String(99999), nullable=False)
     completed_on = Column('completed_on', Integer, nullable=True)
 
-    def __init__(self, requested_by, requested_on, status, urls):
+    def __init__(self, requested_by: str, requested_on: int, status: str, urls: str):
         self.requested_by = requested_by
         self.requested_on = requested_on
         self.status = status

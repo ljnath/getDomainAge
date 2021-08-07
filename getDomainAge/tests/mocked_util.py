@@ -1,4 +1,3 @@
-import logging
 from datetime import datetime
 from pathlib import Path
 
@@ -14,10 +13,6 @@ class MockedUtil:
 
     def get_false(self, *arg):
         return False
-
-    def get_memcached_domain(self, *args):
-        memcached_domain = {'domain.com': datetime.now}
-        return memcached_domain
 
     def get_valid_configs(self, *args):
         valid_json_filepath = f'{Path(__file__).parent.absolute()}/files/valid.json'
