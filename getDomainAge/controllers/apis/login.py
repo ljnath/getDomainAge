@@ -13,7 +13,7 @@ login_service = LoginService()
 @app.route(f'/{Endpoint.API_LOGIN.value}', methods=[HttpMethod.POST.value])
 def api_login():
     """
-    endpoint: /getDomainAge/login
+    endpoint: /getDomainAge/api/login
     login endpoint for user to login into the app
     """
     user_email = request.form[FormParam.EMAIL.value].lower()
@@ -21,14 +21,14 @@ def api_login():
     if login_service.login(user_email):
         return redirect(url_for(SiteLink.DASHBOARD.value))
     else:
-        return render_template(Template.INDEX.value, error='Login failed, Invalid email or API key.')
+        return render_template(Template.INDEX.value, error='Login failed, Invalid email ID.')
 
 
 @app.route(f'/{Endpoint.API_LOGOUT.value}')
 @has_logged_in
 def api_logout():
     """
-    endpoint: /getDomainAge/logout
+    endpoint: /getDomainAge/api/logout
     logout endpoint for user to logout
     """
     login_service.logout()

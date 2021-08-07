@@ -1,10 +1,13 @@
+from typing import Tuple
+
+
 class UIService:
     """
     Class with helper method related to UI
     """
 
     @staticmethod
-    def get_prev_next_page_number(max_page, current_page) -> tuple:
+    def get_prev_next_page_number(max_page: int, current_page: int) -> Tuple[int, int]:
         """
         To calculate the previous and next page number for the pagination system,
         maximum number of page number shown is 3

@@ -1,12 +1,13 @@
 from typing import List
 
-from getDomainAge.tests.mocked_util import MockedUtil
 import pytest
 from getDomainAge.handlers.environment import Environment
 from getDomainAge.handlers.exception import UninitializedEnvironment
+from getDomainAge.tests.mocked_util import MockedUtil
 
 
 def test_uninitialized_environment():
+    Environment.clear()
     with pytest.raises(UninitializedEnvironment):
         Environment().app_name
 
