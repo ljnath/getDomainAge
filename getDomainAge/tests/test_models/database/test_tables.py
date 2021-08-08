@@ -1,12 +1,9 @@
 import sqlalchemy
-from getDomainAge.handlers.environment import Environment
-from getDomainAge.tests.mocked_util import MockedUtil
+from getDomainAge.tests import with_valid_environment
 
 
+@with_valid_environment
 def test_jobs_table_schema():
-    env = Environment()
-    env.initialize(MockedUtil().get_valid_configs())
-
     from getDomainAge.models.database.tables import Jobs
 
     assert Jobs.__tablename__ == 'Jobs'
@@ -48,5 +45,3 @@ def test_jobs_table_schema():
     assert isinstance(Jobs.completed_on.type, sqlalchemy.Integer)
     assert not Jobs.completed_on.primary_key
     assert Jobs.completed_on.nullable
-
-    Environment.clear()

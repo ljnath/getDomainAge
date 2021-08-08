@@ -3,7 +3,7 @@ from typing import List
 import pytest
 from getDomainAge.handlers.environment import Environment
 from getDomainAge.handlers.exception import UninitializedEnvironment
-from getDomainAge.tests.mocked_util import MockedUtil
+from getDomainAge.tests import with_valid_environment
 
 
 def test_uninitialized_environment():
@@ -18,10 +18,10 @@ def test_singleton_environment():
     assert env_1 == env_2
 
 
+@with_valid_environment
 def test_properties():
-    env = Environment()
-    env.initialize(MockedUtil().get_valid_configs())
     from getDomainAge.models.database.tables import Jobs
+    env = Environment()
 
     workspace_path = 'my_workspace'
     assert env.app_name == 'getDomainAge'
@@ -52,5 +52,3 @@ def test_properties():
 
     assert env.whois_url == 'https://www.whois.com/whois/'
     assert env.api_secrect_key == 'this-is-my-secret-key'
-
-    Environment.clear()

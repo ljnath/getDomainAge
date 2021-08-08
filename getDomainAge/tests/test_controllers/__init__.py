@@ -18,7 +18,7 @@ def app():
     from getDomainAge import app as flask_app
     # importing database service class and initializing the database
     from getDomainAge.services.database import DatabaseService
-    DatabaseService().initialize()
+    DatabaseService().initialize(recreate=True)
 
     flask_app.testing = True
     flask_app.secret_key = env.api_secrect_key

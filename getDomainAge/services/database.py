@@ -24,12 +24,13 @@ class DatabaseService:
         # cerating a database session
         self.__session = Session(bind=self.__env.sqlalchemy_engine)
 
-    def initialize(self) -> None:
+    def initialize(self, recreate: bool = False) -> None:
         """
+        :param recreate: When set True, this will recreate the database
         method to initialize the database
         Initialization process includes creation of all DB tables and commiting the changes
         """
-        self.__env.sqlalchemy_base.metadata.create_all(self.__env.sqlalchemy_engine)
+        self.__env.sqlalchemy_base.metadata.create_all(self.__env.sqlalchemy_engine, checkfirst=~recreate)
         self.__logger.info('Successfully initialized database')
 
     def get_job_by_id(self, job_id) -> Jobs:

@@ -39,7 +39,6 @@ def test_job_view_api_for_requestor_jobs(test_client):
 
     response = test_client.get(Endpoint.API_JOB_VIEW.value, follow_redirects=False)
     assert response.status_code == 200
-    print(response.data.decode('utf-8'))
     assert 'List of jobs submitted by you' in response.data.decode('utf-8')
 
     with test_client.session_transaction() as session:
@@ -59,7 +58,6 @@ def test_job_view_api_for_all_jobs(test_client):
 
     response = test_client.get(f'{Endpoint.API_JOB_VIEW.value}?all', follow_redirects=False)
     assert response.status_code == 200
-    print(response.data.decode('utf-8'))
     assert 'List of jobs submitted by all user' in response.data.decode('utf-8')
 
     with test_client.session_transaction() as session:
@@ -68,6 +66,13 @@ def test_job_view_api_for_all_jobs(test_client):
 
         assert session[SessionParam.VIEW_ALL.value]
         assert session[SessionParam.PAGE_INDEX.value] == 2
+
+
+def test_job_view_with_invalid_page_index(test_client):
+    do_login(test_client)  # performing login
+
+    response = test_client.get(f'{Endpoint.API_JOB_VIEW.value}?page=ABC', follow_redirects=False)
+    assert response.status_code == 200
 
 
 def test_if_job_add_api_redirects_to_add_job_page_with_missing_data(test_client):

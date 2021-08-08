@@ -1,7 +1,8 @@
-from urllib.parse import ParseResult, urlparse
+from typing import Dict, List
+from urllib.parse import urlparse
 
 import requests
-from _datetime import datetime
+from datetime import datetime
 from bs4 import BeautifulSoup
 from getDomainAge.handlers.cache.domain import DomainCacheHandler
 from getDomainAge.handlers.environment import Environment
@@ -29,7 +30,7 @@ class DomainService:
         try:
             result = urlparse(url)
             domain_name = result.netloc if result.netloc else result.path
-        except ParseResult as parse_error:
+        except ValueError as parse_error:
             self.__logger.warning(f'Failed to parse domain name from URL {url}')
             self.__logger.exception(parse_error, exec_info=True)
         else:
@@ -101,7 +102,7 @@ class DomainService:
 
         return self.__get_domain_age_in_days(reg_date)
 
-    def get_age_of_domains(self, domains: list) -> dict:
+    def get_age_of_domains(self, domains: List[str]) -> Dict[str, int]:
         """
         Method to get the age of each domains from the list of domains.
         Internally it does a lookup in the cache and returns the result from it.
@@ -114,7 +115,7 @@ class DomainService:
         for domain in domains:
             age = 'NA'
             if not domain:
-                self.__logger.warn(f'Invalid domain name {domain}')
+                self.__logger.warning(f'Invalid domain name {domain}')
             else:
                 age = self.get_age_of_domain(domain)
 
@@ -126,7 +127,7 @@ class DomainService:
 
         return result
 
-    def get_age_from_urls(self, urls: list) -> list:
+    def get_age_from_urls(self, urls: list) -> List[CsvResult]:
         """
         Method to parse the domain name from URLs and calcualte its age (in days).
         :param urls : URLs as a list of strings which needs to be processed
