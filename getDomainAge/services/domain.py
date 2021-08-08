@@ -52,7 +52,7 @@ class DomainService:
             domain_age = delta.days
         except ValueError as value_error:
             self.__logger.error(f'Failed to calculate the domain age from domain registration date {reg_date}')
-            self.__logger.exception(value_error, exec_info=True)
+            self.__logger.exception(value_error, exc_info=True)
 
         return domain_age
 
