@@ -31,7 +31,11 @@ def test_if_job_api_adds_new_job(test_client):
 
 
 def test_job_view_api_for_requestor_jobs(test_client):
-    do_login(test_client)  # performing login
+    do_login(test_client, 'user1@test.com')  # performing login
+
+    # adding a new job by the logged-in email - user1@test.com
+    with patch.object(wtforms.Form, 'validate', return_value=True) as _:
+        test_client.post(Endpoint.API_JOB_ADD.value, follow_redirects=False)
 
     response = test_client.get(Endpoint.API_JOB_VIEW.value, follow_redirects=False)
     assert response.status_code == 200
@@ -47,10 +51,15 @@ def test_job_view_api_for_requestor_jobs(test_client):
 
 
 def test_job_view_api_for_all_jobs(test_client):
-    do_login(test_client)  # performing login
+    do_login(test_client, 'user2@test.com')  # performing login
+
+    # adding a new job by the logged-in email - user2@test.com
+    with patch.object(wtforms.Form, 'validate', return_value=True) as _:
+        test_client.post(Endpoint.API_JOB_ADD.value, follow_redirects=False)
 
     response = test_client.get(f'{Endpoint.API_JOB_VIEW.value}?all', follow_redirects=False)
     assert response.status_code == 200
+    print(response.data.decode('utf-8'))
     assert 'List of jobs submitted by all user' in response.data.decode('utf-8')
 
     with test_client.session_transaction() as session:

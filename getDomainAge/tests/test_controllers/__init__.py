@@ -32,5 +32,5 @@ def test_client(app):
     return app.test_client()
 
 
-def do_login(test_client):
-    test_client.post(Endpoint.API_LOGIN.value, data={'email': 'test@test.com'}, follow_redirects=False)
+def do_login(test_client, email='test@test.com'):
+    test_client.post(Endpoint.API_LOGIN.value, data={'email': email}, follow_redirects=False)
