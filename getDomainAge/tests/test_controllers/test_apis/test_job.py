@@ -30,11 +30,12 @@ def test_if_job_api_adds_new_job(test_client):
     assert response.request.path == Endpoint.API_JOB_ADD.value
 
 
-def test_job_view_api_for_requested_jobs(test_client):
+def test_job_view_api_for_requestor_jobs(test_client):
     do_login(test_client)  # performing login
 
-    response = test_client.get(Endpoint.API_JOB_VIEW.value, follow_redirects=True)
+    response = test_client.get(Endpoint.API_JOB_VIEW.value, follow_redirects=False)
     assert response.status_code == 200
+    print(response.data.decode('utf-8'))
     assert 'List of jobs submitted by you' in response.data.decode('utf-8')
 
     with test_client.session_transaction() as session:

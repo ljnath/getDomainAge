@@ -30,7 +30,7 @@ class LoginService:
             successful_login = True
             self.__logger.info(f'Successful login by user with email {email}')
         else:
-            self.__logger.warn(f'Failed login by user with invalid email {email}')
+            self.__logger.warning(f'Failed login by user with invalid email {email}')
 
         return successful_login
 

@@ -43,7 +43,7 @@ jobs:
 
     - name: Test with pytest with codedov report
       run: |
-        pytest -v --cov=getDomainAge --cov-report=xml
+        pytest -v -rP --cov=getDomainAge --cov-report=xml
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
