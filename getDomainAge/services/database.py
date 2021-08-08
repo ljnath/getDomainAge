@@ -36,7 +36,7 @@ class DatabaseService:
     def get_job_by_id(self, job_id) -> Jobs:
         """
         method to search for a single Job record by id and return it
-        :return Job : result job record
+        :return Jobs : result job record
         """
         return self.__session.query(Jobs).filter_by(id=job_id).first()
 

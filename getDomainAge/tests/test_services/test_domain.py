@@ -1,7 +1,6 @@
 from datetime import datetime, timedelta
-from unittest.mock import Mock, PropertyMock, patch
+from unittest.mock import PropertyMock, patch
 
-import getDomainAge
 from getDomainAge.handlers.cache.domain import DomainCacheHandler
 from getDomainAge.handlers.environment import Environment
 from getDomainAge.services.domain import DomainService
@@ -52,7 +51,7 @@ def test_get_age_of_domain():
 def test_get_domain_from_url_no_exception():
     domain_service = DomainService()
     try:
-        domain_service.get_age_from_urls(['abc', int, 0.123])
+        domain_service.get_age_from_urls([0.123])
     except Exception:
         assert False, 'Exception should not be raised, it should have been handled property'
 
@@ -75,5 +74,6 @@ def test_update_and_saving_of_cache():
         mocked_method.return_value = datetime.today().strftime('%Y-%m-%d')
 
         with patch.object(DomainCacheHandler, 'save_to_disk') as mocked_domain_cache_hanlder:
-            domain_service.get_age_from_urls(['https://somedomain.com/index.html'])
-            mocked_domain_cache_hanlder.assert_called()
+            domain_service.get_age_from_urls(['https://mydomain1.com/index.html'])
+            domain_service.get_age_of_domains(['www.mydomain2.com'])
+            assert mocked_domain_cache_hanlder.call_count == 2
