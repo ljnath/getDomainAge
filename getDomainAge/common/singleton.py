@@ -10,6 +10,10 @@ class Singleton(type):
     _instances = {}
 
     def __call__(cls, *args, **kwargs):
+        """
+        Method to create an intance of the class if it is not created before,
+        else return the already created one
+        """
         if cls not in cls._instances:
             cls._instances[cls] = super(Singleton, cls).__call__(
                 *args,
@@ -19,7 +23,7 @@ class Singleton(type):
 
     def clear(cls):
         """
-        Method to forcefully delete the singleton instance
+        Method to delete the singleton instance of the class
         """
         try:
             del Singleton._instances[cls]
