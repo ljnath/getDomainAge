@@ -1,2 +1,2 @@
 
-from runserver import app
+from wsgi import app
