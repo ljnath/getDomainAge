@@ -8,8 +8,8 @@
     ],
     "routes": [
       {
-        "src": "/(.*)",
-        "dest": "/"
+        "src": "/getDomainAge/(.*)",
+        "dest": "/getDomainAge"
       }
     ]
   }
