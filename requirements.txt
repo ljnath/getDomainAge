@@ -27,7 +27,7 @@ pycodestyle==2.11.1
 pyflakes==3.1.0
 pylint==3.0.2
 pytest==7.4.2
-requests==2.31.0
+requests==2.32.4
 soupsieve==2.2.1
 SQLAlchemy==2.0.22
 tomli==2.0.1
